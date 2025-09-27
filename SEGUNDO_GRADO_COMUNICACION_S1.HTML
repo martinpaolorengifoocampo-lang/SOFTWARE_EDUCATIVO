@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Comprensión Lectora 2° – Cuento con Audio</title>
+<style>
+  :root{--bg:#f9fafc;--card:#fff;--primary:#16a34a;--muted:#6b7280;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;}
+  body{margin:0;background:var(--bg);color:#0f172a;padding:18px}
+  .container{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:360px 1fr;gap:18px}
+  header{grid-column:1/3;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+  h1{margin:0;font-size:1.05rem;color:var(--primary)}
+  .card{background:var(--card);padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
+  .small{font-size:0.9rem;color:var(--muted)}
+  .records{max-height:62vh;overflow:auto;margin-top:8px}
+  table{width:100%;border-collapse:collapse;font-size:0.9rem}
+  th,td{padding:6px;border-bottom:1px solid #eef2f7;text-align:left}
+  button{cursor:pointer;border:0;padding:8px 10px;border-radius:8px;background:var(--primary);color:#fff}
+  .ghost{background:transparent;color:var(--primary);border:1px solid #e6eefc}
+  form .question{padding:10px 0;border-bottom:1px solid #f1f5f9}
+  .options label{display:block;margin:6px 0;cursor:pointer}
+  input[type=text]{width:100%;padding:8px;border-radius:6px;border:1px solid #e6eefc}
+  .controls{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+  #result{margin-top:10px;padding:10px;border-radius:8px;background:#ecfeff;color:#064e3b}
+  #cuento{background:#f1f5f9;padding:12px;border-radius:8px;margin-bottom:12px;line-height:1.4}
+  #playAudio{margin-top:10px;background:#0284c7}
+  @media (max-width:980px){ .container{grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>INSTITUCIÓN EDUCATIVA N° 61001 "CLUB DE LEONES" </h1>
+      <div class="small">COMPRENSIÓN LECTORA - SEGUNDO GRADO</div>
+    </header>
+
+    <!-- Lista de registros -->
+    <aside class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong>Registros guardados</strong>
+        <button id="btnClearAll" class="ghost">Borrar todo</button>
+      </div>
+      <div class="small" style="margin-top:6px">Cada intento se guarda con nombre, grado y puntaje.</div>
+      <div id="recordsList" class="records" aria-live="polite" style="margin-top:10px"></div>
+    </aside>
+
+    <!-- Formulario + cuento + preguntas -->
+    <main>
+      <div class="card">
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <div style="flex:1">
+            <label><strong>Nombre del alumno</strong><br>
+              <input id="nombre" type="text" placeholder="Ej: Juan Pérez">
+            </label>
+          </div>
+          <div style="width:160px">
+            <label><strong>Grado / Sección</strong><br>
+              <input id="grado" type="text" placeholder="Ej: 2°B">
+            </label>
+          </div>
+          <div style="min-width:140px">
+            <button id="btnNuevo">Nuevo alumno</button>
+          </div>
+        </div>
+
+        <div id="cuento">
+          <h3>Cuento: La gran carrera de las tortugas</h3>
+          En un tranquilo lago vivían cuatro tortugas amigas: Tina, Lila, Paco y Memo.  
+          Un día decidieron hacer una carrera para divertirse.  
+          Paco dijo: “Yo soy el más rápido, seguro ganaré”.  
+          Tina sonrió y respondió: “Lo importante es jugar juntos”.  
+          Lila y Memo estaban emocionados.  
+          Cuando comenzó la carrera, Paco salió primero, pero en el camino se detuvo a descansar.  
+          Mientras tanto, Tina avanzó paso a paso sin detenerse.  
+          Lila y Memo también siguieron con calma.  
+          Al final, Tina llegó primero, seguida de Lila, luego Memo y, por último, Paco.  
+          Todos aplaudieron y comprendieron que la paciencia y el esfuerzo son más importantes que presumir.  
+          <button id="playAudio">▶ Escuchar Cuento</button>
+          <audio id="audioCuento" src="carrera_tortugas.mp3" preload="auto"></audio>
+        </div>
+
+        <form id="quizForm">
+          <!-- 10 preguntas -->
+          <div class="question"><strong>1.</strong> ¿Dónde vivían las tortugas?
+            <div class="options">
+              <label><input type="radio" name="q1" value="lago">En un lago</label>
+              <label><input type="radio" name="q1" value="rio">En un río</label>
+              <label><input type="radio" name="q1" value="bosque">En un bosque</label>
+            </div>
+          </div>
+          <div class="question"><strong>2.</strong> ¿Cuántas tortugas eran?
+            <div class="options">
+              <label><input type="radio" name="q2" value="4">Cuatro</label>
+              <label><input type="radio" name="q2" value="3">Tres</label>
+              <label><input type="radio" name="q2" value="5">Cinco</label>
+            </div>
+          </div>
+          <div class="question"><strong>3.</strong> ¿Quién pensaba que ganaría?
+            <div class="options">
+              <label><input type="radio" name="q3" value="paco">Paco</label>
+              <label><input type="radio" name="q3" value="tina">Tina</label>
+              <label><input type="radio" name="q3" value="memo">Memo</label>
+            </div>
+          </div>
+          <div class="question"><strong>4.</strong> ¿Qué dijo Tina que era importante?
+            <div class="options">
+              <label><input type="radio" name="q4" value="jugar">Jugar juntos</label>
+              <label><input type="radio" name="q4" value="ganar">Ganar siempre</label>
+              <label><input type="radio" name="q4" value="descansar">Descansar mucho</label>
+            </div>
+          </div>
+          <div class="question"><strong>5.</strong> ¿Qué hizo Paco durante la carrera?
+            <div class="options">
+              <label><input type="radio" name="q5" value="descanso">Se detuvo a descansar</label>
+              <label><input type="radio" name="q5" value="corrio">Corrió sin parar</label>
+              <label><input type="radio" name="q5" value="ayudo">Ayudó a Tina</label>
+            </div>
+          </div>
+          <div class="question"><strong>6.</strong> ¿Quién llegó en primer lugar?
+            <div class="options">
+              <label><input type="radio" name="q6" value="tina">Tina</label>
+              <label><input type="radio" name="q6" value="paco">Paco</label>
+              <label><input type="radio" name="q6" value="memo">Memo</label>
+            </div>
+          </div>
+          <div class="question"><strong>7.</strong> ¿En qué orden llegaron los demás?
+            <div class="options">
+              <label><input type="radio" name="q7" value="lila-memo-paco">Lila, Memo y Paco</label>
+              <label><input type="radio" name="q7" value="memo-lila-paco">Memo, Lila y Paco</label>
+              <label><input type="radio" name="q7" value="paco-lila-memo">Paco, Lila y Memo</label>
+            </div>
+          </div>
+          <div class="question"><strong>8.</strong> ¿Qué aprendieron las tortugas?
+            <div class="options">
+              <label><input type="radio" name="q8" value="paciencia">Que la paciencia y el esfuerzo son importantes</label>
+              <label><input type="radio" name="q8" value="rapidez">Que hay que presumir para ganar</label>
+              <label><input type="radio" name="q8" value="descanso">Que es mejor descansar</label>
+            </div>
+          </div>
+          <div class="question"><strong>9.</strong> ¿Cómo se sintieron al final?
+            <div class="options">
+              <label><input type="radio" name="q9" value="contentos">Contentos y unidos</label>
+              <label><input type="radio" name="q9" value="enojados">Enojados</label>
+              <label><input type="radio" name="q9" value="tristes">Tristes</label>
+            </div>
+          </div>
+          <div class="question"><strong>10.</strong> ¿Qué valor muestra Tina?
+            <div class="options">
+              <label><input type="radio" name="q10" value="esfuerzo">Esfuerzo y constancia</label>
+              <label><input type="radio" name="q10" value="orgullo">Orgullo</label>
+              <label><input type="radio" name="q10" value="trampa">Trampa</label>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button type="button" id="btnGuardar">Guardar y Calcular Nota</button>
+          </div>
+        </form>
+
+        <div id="result" class="small" style="display:none"></div>
+      </div>
+    </main>
+  </div>
+
+<script>
+const STORAGE_KEY = 'comprension2_records';
+const PASSWORD = 'LEONES2025';
+const correctAnswers = {
+  q1:"lago", q2:"4", q3:"paco", q4:"jugar", q5:"descanso",
+  q6:"tina", q7:"lila-memo-paco", q8:"paciencia",
+  q9:"contentos", q10:"esfuerzo"
+};
+let records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+
+function saveRecords(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(records)); renderRecordsList(); }
+function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function renderRecordsList(){
+  const el=document.getElementById('recordsList');
+  if(records.length===0){el.innerHTML='<div class="small">No hay registros aún.</div>';return;}
+  let html='<table><thead><tr><th>Alumno</th><th>Grado</th><th>Puntos</th><th>Fecha</th></tr></thead><tbody>';
+  records.slice().sort((a,b)=>b.date.localeCompare(a.date)).forEach(r=>{
+    html+=`<tr><td>${escapeHtml(r.nombre)}</td><td>${escapeHtml(r.grado)}</td><td>${r.puntos}/10</td><td>${new Date(r.date).toLocaleString()}</td></tr>`;
+  });
+  html+='</tbody></table>';
+  el.innerHTML=html;
+}
+
+document.getElementById('btnGuardar').addEventListener('click',()=>{
+  const nombre=document.getElementById('nombre').value.trim();
+  const grado=document.getElementById('grado').value.trim();
+  if(!nombre||!grado){alert('Ingresa nombre y grado.');return;}
+  const form=document.getElementById('quizForm');
+  let puntos=0,respuestas={};
+  for(const k in correctAnswers){
+    const v=(form.querySelector(`input[name="${k}"]:checked`)||{}).value||'';
+    respuestas[k]=v; if(v===correctAnswers[k]) puntos++;
+  }
+  records.push({id:Date.now(),nombre,grado,puntos,respuestas,date:new Date().toISOString()});
+  saveRecords();
+  const res=document.getElementById('result');
+  res.style.display='block';
+  res.innerHTML=`<strong>Guardado</strong>: ${escapeHtml(nombre)} (${escapeHtml(grado)}) obtuvo <strong>${puntos}/10</strong>.`;
+  form.reset();
+});
+
+document.getElementById('btnNuevo').addEventListener('click',()=>{
+  document.getElementById('nombre').value='';
+  document.getElementById('grado').value='';
+  document.getElementById('quizForm').reset();
+  document.getElementById('result').style.display='none';
+});
+
+document.getElementById('btnClearAll').addEventListener('click',()=>{
+  const pass=prompt('Para borrar todos los registros ingrese la contraseña:');
+  if(pass===PASSWORD){
+    if(confirm('¿Está seguro de borrar TODOS los registros?')){
+      records=[]; saveRecords(); document.getElementById('result').style.display='none';
+      alert('Todos los registros fueron eliminados.');
+    }
+  }else if(pass!==null){ alert('Contraseña incorrecta.'); }
+});
+
+// Audio
+const audio=document.getElementById('audioCuento');
+document.getElementById('playAudio').addEventListener('click',()=>{
+  audio.currentTime=0;
+  audio.play();
+});
+
+renderRecordsList();
+</script>
+</body>
+</html>

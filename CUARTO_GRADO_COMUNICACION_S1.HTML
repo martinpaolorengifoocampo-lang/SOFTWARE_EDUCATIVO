@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Comprensión Lectora 4° – Cuento con Audio</title>
+<style>
+  :root{--bg:#f9fafc;--card:#fff;--primary:#16a34a;--muted:#6b7280;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;}
+  body{margin:0;background:var(--bg);color:#0f172a;padding:18px}
+  .container{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:360px 1fr;gap:18px}
+  header{grid-column:1/3;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+  h1{margin:0;font-size:1.05rem;color:var(--primary)}
+  .card{background:var(--card);padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
+  .small{font-size:0.9rem;color:var(--muted)}
+  .records{max-height:62vh;overflow:auto;margin-top:8px}
+  table{width:100%;border-collapse:collapse;font-size:0.9rem}
+  th,td{padding:6px;border-bottom:1px solid #eef2f7;text-align:left}
+  button{cursor:pointer;border:0;padding:8px 10px;border-radius:8px;background:var(--primary);color:#fff}
+  .ghost{background:transparent;color:var(--primary);border:1px solid #e6eefc}
+  form .question{padding:10px 0;border-bottom:1px solid #f1f5f9}
+  .options label{display:block;margin:6px 0;cursor:pointer}
+  input[type=text]{width:100%;padding:8px;border-radius:6px;border:1px solid #e6eefc}
+  .controls{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+  #result{margin-top:10px;padding:10px;border-radius:8px;background:#ecfeff;color:#064e3b}
+  #cuento{background:#f1f5f9;padding:12px;border-radius:8px;margin-bottom:12px;line-height:1.4}
+  #playAudio{margin-top:10px;background:#0284c7}
+  @media (max-width:980px){ .container{grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+       <h1>INSTITUCIÓN EDUCATIVA N° 61001 "CLUB DE LEONES" </h1>
+      <div class="small">COMPRENSIÓN LECTORA - CUARTO GRADO</div>
+    </header>
+
+    <!-- Lista de registros -->
+    <aside class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong>Registros guardados</strong>
+        <button id="btnClearAll" class="ghost">Borrar todo</button>
+      </div>
+      <div class="small" style="margin-top:6px">Cada intento se guarda con nombre, grado y puntaje.</div>
+      <div id="recordsList" class="records" aria-live="polite" style="margin-top:10px"></div>
+    </aside>
+
+    <!-- Formulario + cuento + preguntas -->
+    <main>
+      <div class="card">
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <div style="flex:1">
+            <label><strong>Nombre del alumno</strong><br>
+              <input id="nombre" type="text" placeholder="Ej: Carla Núñez">
+            </label>
+          </div>
+          <div style="width:160px">
+            <label><strong>Grado / Sección</strong><br>
+              <input id="grado" type="text" placeholder="Ej: 4°B">
+            </label>
+          </div>
+          <div style="min-width:140px">
+            <button id="btnNuevo">Nuevo alumno</button>
+          </div>
+        </div>
+
+        <div id="cuento">
+          <h3>Cuento: El faro de la colina roja</h3>
+          En la costa norte del país se alzaba una colina de tierra rojiza que dominaba el océano.  
+          En su cima se encontraba un antiguo faro que, según los pescadores, había salvado cientos de vidas  
+          durante tormentas y noches sin luna.  
+          Lucía, una niña de diez años que vivía en el pueblo costero, sentía una gran curiosidad por aquel lugar.  
+          Su abuelo, que había sido guardián del faro, le contaba historias de barcos que encontraban el camino  
+          gracias a la luz que nunca se apagaba.  
+          Un día de vacaciones, Lucía pidió a su abuelo que la llevara a conocer el interior.  
+          Subieron los escalones de piedra mientras el viento marino soplaba con fuerza.  
+          En la sala principal descubrieron viejos mapas, brújulas oxidadas y una enorme lámpara de cristal.  
+          El abuelo le explicó que, cada noche, él debía limpiar el vidrio y encender la luz para guiar a los navegantes.  
+          Lucía imaginó los barcos agradeciendo aquella señal brillante en medio de la oscuridad.  
+          Antes de irse, prometió que, cuando creciera, también cuidaría el faro para que siguiera iluminando  
+          la ruta de los marineros y protegiendo a todos los viajeros del mar.  
+          <button id="playAudio">▶ Escuchar Cuento</button>
+          <audio id="audioCuento" src="faro_roja.mp3" preload="auto"></audio>
+        </div>
+
+        <form id="quizForm">
+          <!-- 10 preguntas -->
+          <div class="question"><strong>1.</strong> ¿Dónde se encontraba el faro?
+            <div class="options">
+              <label><input type="radio" name="q1" value="colina">En la cima de una colina roja</label>
+              <label><input type="radio" name="q1" value="isla">En una isla lejana</label>
+              <label><input type="radio" name="q1" value="puerto">En el puerto del pueblo</label>
+            </div>
+          </div>
+          <div class="question"><strong>2.</strong> ¿Quién acompañó a Lucía en la visita?
+            <div class="options">
+              <label><input type="radio" name="q2" value="abuelo">Su abuelo</label>
+              <label><input type="radio" name="q2" value="madre">Su madre</label>
+              <label><input type="radio" name="q2" value="amigos">Sus amigos de la escuela</label>
+            </div>
+          </div>
+          <div class="question"><strong>3.</strong> ¿Qué contaban los pescadores sobre el faro?
+            <div class="options">
+              <label><input type="radio" name="q3" value="salvaba">Que había salvado muchas vidas</label>
+              <label><input type="radio" name="q3" value="fantasmas">Que estaba habitado por fantasmas</label>
+              <label><input type="radio" name="q3" value="tesoro">Que escondía un tesoro</label>
+            </div>
+          </div>
+          <div class="question"><strong>4.</strong> ¿Qué encontraron en la sala principal?
+            <div class="options">
+              <label><input type="radio" name="q4" value="mapas">Mapas, brújulas y una lámpara de cristal</label>
+              <label><input type="radio" name="q4" value="animales">Animales marinos</label>
+              <label><input type="radio" name="q4" value="libros">Libros de cuentos</label>
+            </div>
+          </div>
+          <div class="question"><strong>5.</strong> ¿Qué hacía el abuelo cada noche en el faro?
+            <div class="options">
+              <label><input type="radio" name="q5" value="encender">Limpiaba el vidrio y encendía la luz</label>
+              <label><input type="radio" name="q5" value="pintar">Pintaba las paredes</label>
+              <label><input type="radio" name="q5" value="pescar">Pescaba desde la ventana</label>
+            </div>
+          </div>
+          <div class="question"><strong>6.</strong> ¿Por qué era importante la luz del faro?
+            <div class="options">
+              <label><input type="radio" name="q6" value="guiar">Porque guiaba a los navegantes en la oscuridad</label>
+              <label><input type="radio" name="q6" value="decorar">Porque decoraba la colina</label>
+              <label><input type="radio" name="q6" value="calor">Porque daba calor a los pescadores</label>
+            </div>
+          </div>
+          <div class="question"><strong>7.</strong> ¿Qué sintió Lucía al imaginar los barcos?
+            <div class="options">
+              <label><input type="radio" name="q7" value="agradecimiento">Agradecimiento por la señal brillante</label>
+              <label><input type="radio" name="q7" value="miedo">Miedo a las tormentas</label>
+              <label><input type="radio" name="q7" value="tristeza">Tristeza por los marineros</label>
+            </div>
+          </div>
+          <div class="question"><strong>8.</strong> ¿Qué prometió Lucía antes de irse?
+            <div class="options">
+              <label><input type="radio" name="q8" value="cuidar">Cuidar el faro cuando creciera</label>
+              <label><input type="radio" name="q8" value="pintar">Pintar la colina de azul</label>
+              <label><input type="radio" name="q8" value="viajar">Viajar en barco por el mundo</label>
+            </div>
+          </div>
+          <div class="question"><strong>9.</strong> ¿Qué valor destaca la historia?
+            <div class="options">
+              <label><input type="radio" name="q9" value="responsabilidad">Responsabilidad y servicio a los demás</label>
+              <label><input type="radio" name="q9" value="competencia">Competencia entre pescadores</label>
+              <label><input type="radio" name="q9" value="olvido">Olvido de las tradiciones</label>
+            </div>
+          </div>
+          <div class="question"><strong>10.</strong> ¿Qué título alternativo sería adecuado?
+            <div class="options">
+              <label><input type="radio" name="q10" value="luz">La luz que nunca duerme</label>
+              <label><input type="radio" name="q10" value="tesoro">El tesoro oculto</label>
+              <label><input type="radio" name="q10" value="viaje">El viaje de Lucía</label>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button type="button" id="btnGuardar">Guardar y Calcular Nota</button>
+          </div>
+        </form>
+
+        <div id="result" class="small" style="display:none"></div>
+      </div>
+    </main>
+  </div>
+
+<script>
+const STORAGE_KEY = 'comprension4_records';
+const PASSWORD = 'LEONES2025';
+const correctAnswers = {
+  q1:"colina", q2:"abuelo", q3:"salvaba", q4:"mapas", q5:"encender",
+  q6:"guiar", q7:"agradecimiento", q8:"cuidar", q9:"responsabilidad", q10:"luz"
+};
+let records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+
+function saveRecords(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(records)); renderRecordsList(); }
+function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function renderRecordsList(){
+  const el=document.getElementById('recordsList');
+  if(records.length===0){el.innerHTML='<div class="small">No hay registros aún.</div>';return;}
+  let html='<table><thead><tr><th>Alumno</th><th>Grado</th><th>Puntos</th><th>Fecha</th></tr></thead><tbody>';
+  records.slice().sort((a,b)=>b.date.localeCompare(a.date)).forEach(r=>{
+    html+=`<tr><td>${escapeHtml(r.nombre)}</td><td>${escapeHtml(r.grado)}</td><td>${r.puntos}/10</td><td>${new Date(r.date).toLocaleString()}</td></tr>`;
+  });
+  html+='</tbody></table>';
+  el.innerHTML=html;
+}
+
+document.getElementById('btnGuardar').addEventListener('click',()=>{
+  const nombre=document.getElementById('nombre').value.trim();
+  const grado=document.getElementById('grado').value.trim();
+  if(!nombre||!grado){alert('Ingresa nombre y grado.');return;}
+  const form=document.getElementById('quizForm');
+  let puntos=0,respuestas={};
+  for(const k in correctAnswers){
+    const v=(form.querySelector(`input[name="${k}"]:checked`)||{}).value||'';
+    respuestas[k]=v; if(v===correctAnswers[k]) puntos++;
+  }
+  records.push({id:Date.now(),nombre,grado,puntos,respuestas,date:new Date().toISOString()});
+  saveRecords();
+  const res=document.getElementById('result');
+  res.style.display='block';
+  res.innerHTML=`<strong>Guardado</strong>: ${escapeHtml(nombre)} (${escapeHtml(grado)}) obtuvo <strong>${puntos}/10</strong>.`;
+  form.reset();
+});
+
+document.getElementById('btnNuevo').addEventListener('click',()=>{
+  document.getElementById('nombre').value='';
+  document.getElementById('grado').value='';
+  document.getElementById('quizForm').reset();
+  document.getElementById('result').style.display='none';
+});
+
+document.getElementById('btnClearAll').addEventListener('click',()=>{
+  const pass=prompt('Para borrar todos los registros ingrese la contraseña:');
+  if(pass===PASSWORD){
+    if(confirm('¿Está seguro de borrar TODOS los registros?')){
+      records=[]; saveRecords(); document.getElementById('result').style.display='none';
+      alert('Todos los registros fueron eliminados.');
+    }
+  }else if(pass!==null){ alert('Contraseña incorrecta.'); }
+});
+
+// Audio
+const audio=document.getElementById('audioCuento');
+document.getElementById('playAudio').addEventListener('click',()=>{
+  audio.currentTime=0;
+  audio.play();
+});
+
+renderRecordsList();
+</script>
+</body>
+</html>

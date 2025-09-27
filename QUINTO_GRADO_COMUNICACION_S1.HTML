@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Comprensión Lectora 5° – Cuento con Audio</title>
+<style>
+  :root{--bg:#f9fafc;--card:#fff;--primary:#16a34a;--muted:#6b7280;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;}
+  body{margin:0;background:var(--bg);color:#0f172a;padding:18px}
+  .container{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:360px 1fr;gap:18px}
+  header{grid-column:1/3;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+  h1{margin:0;font-size:1.05rem;color:var(--primary)}
+  .card{background:var(--card);padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
+  .small{font-size:0.9rem;color:var(--muted)}
+  .records{max-height:62vh;overflow:auto;margin-top:8px}
+  table{width:100%;border-collapse:collapse;font-size:0.9rem}
+  th,td{padding:6px;border-bottom:1px solid #eef2f7;text-align:left}
+  button{cursor:pointer;border:0;padding:8px 10px;border-radius:8px;background:var(--primary);color:#fff}
+  .ghost{background:transparent;color:var(--primary);border:1px solid #e6eefc}
+  form .question{padding:10px 0;border-bottom:1px solid #f1f5f9}
+  .options label{display:block;margin:6px 0;cursor:pointer}
+  input[type=text]{width:100%;padding:8px;border-radius:6px;border:1px solid #e6eefc}
+  .controls{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+  #result{margin-top:10px;padding:10px;border-radius:8px;background:#ecfeff;color:#064e3b}
+  #cuento{background:#f1f5f9;padding:12px;border-radius:8px;margin-bottom:12px;line-height:1.4}
+  #playAudio{margin-top:10px;background:#0284c7}
+  @media (max-width:980px){ .container{grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+       <h1>INSTITUCIÓN EDUCATIVA N° 61001 "CLUB DE LEONES" </h1>
+      <div class="small">COMPRENSIÓN LECTORA - QUINTO GRADO</div>
+    </header>
+
+    <!-- Lista de registros -->
+    <aside class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong>Registros guardados</strong>
+        <button id="btnClearAll" class="ghost">Borrar todo</button>
+      </div>
+      <div class="small" style="margin-top:6px">Cada intento se guarda con nombre, grado y puntaje.</div>
+      <div id="recordsList" class="records" aria-live="polite" style="margin-top:10px"></div>
+    </aside>
+
+    <!-- Formulario + cuento + preguntas -->
+    <main>
+      <div class="card">
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <div style="flex:1">
+            <label><strong>Nombre del alumno</strong><br>
+              <input id="nombre" type="text" placeholder="Ej: Ana Torres">
+            </label>
+          </div>
+          <div style="width:160px">
+            <label><strong>Grado / Sección</strong><br>
+              <input id="grado" type="text" placeholder="Ej: 5°A">
+            </label>
+          </div>
+          <div style="min-width:140px">
+            <button id="btnNuevo">Nuevo alumno</button>
+          </div>
+        </div>
+
+        <div id="cuento">
+          <h3>Cuento: El jardín de las estaciones</h3>
+          En una ciudad donde los inviernos eran largos y fríos, existía un enorme jardín escondido detrás de un
+          portón de hierro cubierto de enredaderas.  
+          El lugar era conocido por pocos, pues el portón parecía siempre cerrado. Sin embargo, cada estación del
+          año el jardín cambiaba por completo: en primavera los cerezos explotaban en flores rosadas, en verano
+          los girasoles seguían al sol, en otoño las hojas doradas cubrían los senderos y en invierno una capa de
+          nieve convertía todo en un silencioso paisaje blanco.  
+          Luciana, una niña que amaba las plantas, observaba cada día el portón desde su ventana. Su abuela le
+          contaba que el jardín pertenecía a una antigua botánica llamada Isidora, quien desapareció hacía muchos
+          años dejando como legado el cuidado de cada estación.  
+          Un día, después de una fuerte tormenta, Luciana encontró el portón entreabierto. Entró con cautela y
+          descubrió un espectáculo de colores y aromas. Mientras exploraba, una voz suave la saludó: era la
+          guardiana del jardín, una mujer de cabello plateado que se presentó como la Señora Clara.  
+          Ella explicó que el jardín necesitaba de personas que respetaran los ciclos de la naturaleza. Luciana,
+          maravillada, aceptó ayudar. Aprendió a sembrar, a podar y a proteger cada planta según la estación.  
+          Con el tiempo, la niña se convirtió en aprendiz de la guardiana y comprendió que cuidar de la naturaleza
+          era cuidar también de las personas.  
+          Desde entonces, cada cambio de estación el jardín se abría por unas horas para que los niños del barrio
+          pudieran disfrutar de su magia y aprender a respetar el medio ambiente.  
+          <button id="playAudio">▶ Escuchar Cuento</button>
+          <audio id="audioCuento" src="jardín_estaciones.mp3" preload="auto"></audio>
+        </div>
+
+        <form id="quizForm">
+          <!-- 10 preguntas -->
+          <div class="question"><strong>1.</strong> ¿Cómo era el jardín durante el invierno?
+            <div class="options">
+              <label><input type="radio" name="q1" value="nieve">Cubierto de nieve y silencio</label>
+              <label><input type="radio" name="q1" value="flores">Lleno de flores rosadas</label>
+              <label><input type="radio" name="q1" value="girasoles">Lleno de girasoles</label>
+            </div>
+          </div>
+          <div class="question"><strong>2.</strong> ¿Quién era la antigua dueña del jardín?
+            <div class="options">
+              <label><input type="radio" name="q2" value="isidora">Una botánica llamada Isidora</label>
+              <label><input type="radio" name="q2" value="clara">La Señora Clara</label>
+              <label><input type="radio" name="q2" value="luciana">Luciana</label>
+            </div>
+          </div>
+          <div class="question"><strong>3.</strong> ¿Qué encontró Luciana tras la tormenta?
+            <div class="options">
+              <label><input type="radio" name="q3" value="porton">El portón entreabierto</label>
+              <label><input type="radio" name="q3" value="tesoro">Un cofre con tesoros</label>
+              <label><input type="radio" name="q3" value="llave">Una llave dorada</label>
+            </div>
+          </div>
+          <div class="question"><strong>4.</strong> ¿Quién saludó a Luciana en el jardín?
+            <div class="options">
+              <label><input type="radio" name="q4" value="clara">La guardiana, Señora Clara</label>
+              <label><input type="radio" name="q4" value="isidora">La botánica Isidora</label>
+              <label><input type="radio" name="q4" value="vecina">Una vecina curiosa</label>
+            </div>
+          </div>
+          <div class="question"><strong>5.</strong> ¿Qué enseñó la guardiana a Luciana?
+            <div class="options">
+              <label><input type="radio" name="q5" value="ciclos">Respetar los ciclos de la naturaleza</label>
+              <label><input type="radio" name="q5" value="cocinar">Cocinar con hierbas</label>
+              <label><input type="radio" name="q5" value="pintar">Pintar flores</label>
+            </div>
+          </div>
+          <div class="question"><strong>6.</strong> ¿Qué comprendió Luciana al cuidar el jardín?
+            <div class="options">
+              <label><input type="radio" name="q6" value="cuidar">Que cuidar la naturaleza es cuidar a las personas</label>
+              <label><input type="radio" name="q6" value="decorar">Que las flores sirven solo para decorar</label>
+              <label><input type="radio" name="q6" value="vender">Que podía vender flores para ganar dinero</label>
+            </div>
+          </div>
+          <div class="question"><strong>7.</strong> ¿Qué pasaba cada cambio de estación?
+            <div class="options">
+              <label><input type="radio" name="q7" value="abrir">El jardín se abría por unas horas</label>
+              <label><input type="radio" name="q7" value="cerrar">El jardín se cerraba todo el año</label>
+              <label><input type="radio" name="q7" value="fiesta">Se hacía una fiesta en la ciudad</label>
+            </div>
+          </div>
+          <div class="question"><strong>8.</strong> ¿Quiénes podían disfrutar del jardín abierto?
+            <div class="options">
+              <label><input type="radio" name="q8" value="ninos">Los niños del barrio</label>
+              <label><input type="radio" name="q8" value="adultos">Solo los adultos</label>
+              <label><input type="radio" name="q8" value="turistas">Turistas de otros países</label>
+            </div>
+          </div>
+          <div class="question"><strong>9.</strong> ¿Qué valor principal resalta el cuento?
+            <div class="options">
+              <label><input type="radio" name="q9" value="respeto">Respeto y cuidado del medio ambiente</label>
+              <label><input type="radio" name="q9" value="competencia">Competencia entre vecinos</label>
+              <label><input type="radio" name="q9" value="miedo">Miedo a las estaciones</label>
+            </div>
+          </div>
+          <div class="question"><strong>10.</strong> ¿Qué estación disfrutaba Luciana desde su ventana?
+            <div class="options">
+              <label><input type="radio" name="q10" value="todas">Observaba los cambios de todas las estaciones</label>
+              <label><input type="radio" name="q10" value="soloInvierno">Solo el invierno</label>
+              <label><input type="radio" name="q10" value="primavera">Solo la primavera</label>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button type="button" id="btnGuardar">Guardar y Calcular Nota</button>
+          </div>
+        </form>
+
+        <div id="result" class="small" style="display:none"></div>
+      </div>
+    </main>
+  </div>
+
+<script>
+const STORAGE_KEY = 'comprension5_records';
+const PASSWORD = 'LEONES2025';
+const correctAnswers = {
+  q1:"nieve", q2:"isidora", q3:"porton", q4:"clara", q5:"ciclos",
+  q6:"cuidar", q7:"abrir", q8:"ninos", q9:"respeto", q10:"todas"
+};
+let records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+
+function saveRecords(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(records)); renderRecordsList(); }
+function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function renderRecordsList(){
+  const el=document.getElementById('recordsList');
+  if(records.length===0){el.innerHTML='<div class="small">No hay registros aún.</div>';return;}
+  let html='<table><thead><tr><th>Alumno</th><th>Grado</th><th>Puntos</th><th>Fecha</th></tr></thead><tbody>';
+  records.slice().sort((a,b)=>b.date.localeCompare(a.date)).forEach(r=>{
+    html+=`<tr><td>${escapeHtml(r.nombre)}</td><td>${escapeHtml(r.grado)}</td><td>${r.puntos}/10</td><td>${new Date(r.date).toLocaleString()}</td></tr>`;
+  });
+  html+='</tbody></table>';
+  el.innerHTML=html;
+}
+
+document.getElementById('btnGuardar').addEventListener('click',()=>{
+  const nombre=document.getElementById('nombre').value.trim();
+  const grado=document.getElementById('grado').value.trim();
+  if(!nombre||!grado){alert('Ingresa nombre y grado.');return;}
+  const form=document.getElementById('quizForm');
+  let puntos=0,respuestas={};
+  for(const k in correctAnswers){
+    const v=(form.querySelector(`input[name="${k}"]:checked`)||{}).value||'';
+    respuestas[k]=v; if(v===correctAnswers[k]) puntos++;
+  }
+  records.push({id:Date.now(),nombre,grado,puntos,respuestas,date:new Date().toISOString()});
+  saveRecords();
+  const res=document.getElementById('result');
+  res.style.display='block';
+  res.innerHTML=`<strong>Guardado</strong>: ${escapeHtml(nombre)} (${escapeHtml(grado)}) obtuvo <strong>${puntos}/10</strong>.`;
+  form.reset();
+});
+
+document.getElementById('btnNuevo').addEventListener('click',()=>{
+  document.getElementById('nombre').value='';
+  document.getElementById('grado').value='';
+  document.getElementById('quizForm').reset();
+  document.getElementById('result').style.display='none';
+});
+
+document.getElementById('btnClearAll').addEventListener('click',()=>{
+  const pass=prompt('Para borrar todos los registros ingrese la contraseña:');
+  if(pass===PASSWORD){
+    if(confirm('¿Está seguro de borrar TODOS los registros?')){
+      records=[]; saveRecords(); document.getElementById('result').style.display='none';
+      alert('Todos los registros fueron eliminados.');
+    }
+  }else if(pass!==null){ alert('Contraseña incorrecta.'); }
+});
+
+// Audio
+const audio=document.getElementById('audioCuento');
+document.getElementById('playAudio').addEventListener('click',()=>{
+  audio.currentTime=0;
+  audio.play();
+});
+
+renderRecordsList();
+</script>
+</body>
+</html>

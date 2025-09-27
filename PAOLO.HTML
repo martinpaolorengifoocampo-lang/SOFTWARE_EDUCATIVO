@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Menús contextual - Primaria</title>
+  <style>
+    :root{font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;}
+    body{padding:40px; background:#f6f8fa; color:#111}
+    h1{font-size:1.4rem; margin-bottom:10px}
+    .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; max-width:900px}
+    .card{background:white; border-radius:10px; padding:18px; box-shadow:0 6px 18px rgba(16,24,40,0.06); cursor:default; user-select:none}
+    .nivel{font-weight:700; margin-bottom:8px}
+    .hint{font-size:.9rem; color:#666}
+
+    .context-menu{
+      position:fixed;
+      min-width:200px;
+      background:#fff;
+      border:1px solid rgba(16,24,40,0.08);
+      box-shadow:0 10px 30px rgba(16,24,40,0.12);
+      border-radius:8px;
+      padding:6px 6px;
+      display:none;
+      z-index:9999;
+    }
+    .context-menu .item{
+      padding:8px 12px; border-radius:6px; display:flex; justify-content:space-between; align-items:center;
+    }
+    .context-menu .item:hover{background:#f1f5f9}
+    .context-menu .submenu{font-size:.9rem; color:#555}
+    .separator{height:1px; background:transparent; margin:4px 0}
+
+    .chev{opacity:.6}
+
+    @media (max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:420px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <h1>Menús contextuales — Niveles (clic derecho)</h1>
+  <p class="hint">Haz clic derecho (o mantén presionado en móvil) sobre cualquiera de los niveles: Primero, Segundo, Tercero, Cuarto, Quinto o Sexto. Cada menú contiene dos submenús: <strong>Comprensión Lectora</strong> y <strong>Lógico Matemático</strong>.</p>
+
+  <div class="grid" id="niveles">
+    <div class="card nivel-item" data-nivel="Primero"><div class="nivel">Primero</div><div class="hint">Clic derecho aquí</div></div>
+    <div class="card nivel-item" data-nivel="Segundo"><div class="nivel">Segundo</div><div class="hint">Clic derecho aquí</div></div>
+    <div class="card nivel-item" data-nivel="Tercero"><div class="nivel">Tercero</div><div class="hint">Clic derecho aquí</div></div>
+    <div class="card nivel-item" data-nivel="Cuarto"><div class="nivel">Cuarto</div><div class="hint">Clic derecho aquí</div></div>
+    <div class="card nivel-item" data-nivel="Quinto"><div class="nivel">Quinto</div><div class="hint">Clic derecho aquí</div></div>
+    <div class="card nivel-item" data-nivel="Sexto"><div class="nivel">Sexto</div><div class="hint">Clic derecho aquí</div></div>
+  </div>
+
+  <nav id="contextMenu" class="context-menu" aria-hidden="true"></nav>
+
+  <script>
+    const niveles = document.querySelectorAll('.nivel-item');
+    const menu = document.getElementById('contextMenu');
+
+    const submenuOptions = [
+      { id: 'comprension', label: 'Comprensión Lectora' },
+      { id: 'logico', label: 'Lógico Matemático' }
+    ];
+
+    function buildMenuFor(nivelName){
+      menu.innerHTML = '';
+      const title = document.createElement('div');
+      title.className = 'item';
+      title.style.fontWeight = '700';
+      title.style.cursor = 'default';
+      title.innerText = nivelName;
+      menu.appendChild(title);
+
+      const sep = document.createElement('div');
+      sep.className = 'separator';
+      menu.appendChild(sep);
+
+      submenuOptions.forEach(opt =>{
+        const it = document.createElement('div');
+        it.className = 'item';
+        it.tabIndex = 0;
+        it.dataset.action = opt.id;
+        it.innerHTML = `<span>${opt.label}</span><span class='chev'>›</span>`;
+
+        it.addEventListener('click', e => {
+          e.stopPropagation();
+          hideMenu();
+          // Redirecciones específicas
+          if(nivelName === 'Primero' && opt.id === 'comprension'){
+            window.location.href = 'PRIMER GRADO_COMUNICACION_S1.HTML';
+          } else if(nivelName === 'Primero' && opt.id === 'logico'){
+            window.location.href = 'PRIMER GRADO_MATEMATICA_S1.HTML';
+          } else if(nivelName === 'Segundo' && opt.id === 'comprension'){
+            window.location.href = 'SEGUNDO GRADO_COMUNICACION_S1.HTML';
+          } else if(nivelName === 'Segundo' && opt.id === 'logico'){
+            window.location.href = 'SEGUNDO GRADO_MATEMATICA_S1.HTML';
+          } else if(nivelName === 'Tercero' && opt.id === 'comprension'){
+            window.location.href = 'TERCER GRADO_COMUNICACION_S1.HTML';
+          } else if(nivelName === 'Tercero' && opt.id === 'logico'){
+            window.location.href = 'TERCER GRADO_MATEMATICA_S1.HTML';
+          } else if(nivelName === 'Cuarto' && opt.id === 'comprension'){
+            window.location.href = 'CUARTO GRADO_COMUNICACION_S1.HTML';
+          } else if(nivelName === 'Cuarto' && opt.id === 'logico'){
+            window.location.href = 'CUARTO GRADO_MATEMATICA_S1.HTML';
+          } else if(nivelName === 'Quinto' && opt.id === 'comprension'){
+            window.location.href = 'QUINTO GRADO_COMUNICACION_S1.HTML';
+          } else if(nivelName === 'Quinto' && opt.id === 'logico'){
+            window.location.href = 'QUINTO GRADO_MATEMATICA_S1.HTML';
+          } else if(nivelName === 'Sexto' && opt.id === 'comprension'){
+            window.location.href = 'SEXTO GRADO_COMUNICACION_S1.HTML';
+          } else if(nivelName === 'Sexto' && opt.id === 'logico'){
+            window.location.href = 'SEXTO GRADO_MATEMATICA_S1.HTML';
+          }
+        });
+
+        it.addEventListener('keydown', e =>{
+          if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault(); it.click();
+          }
+        });
+
+        menu.appendChild(it);
+      });
+    }
+
+    function showMenu(x,y){
+      menu.style.display = 'block';
+      menu.style.left = x + 'px';
+      menu.style.top = y + 'px';
+      menu.setAttribute('aria-hidden','false');
+      const rect = menu.getBoundingClientRect();
+      if(rect.right > window.innerWidth) menu.style.left = (x - rect.width) + 'px';
+      if(rect.bottom > window.innerHeight) menu.style.top = (y - rect.height) + 'px';
+      const first = menu.querySelector('.item[tabindex]');
+      if(first) first.focus();
+    }
+    function hideMenu(){
+      menu.style.display = 'none';
+      menu.setAttribute('aria-hidden','true');
+    }
+
+    niveles.forEach(node =>{
+      node.addEventListener('contextmenu', e =>{
+        e.preventDefault();
+        const nivelName = node.dataset.nivel;
+        buildMenuFor(nivelName);
+        showMenu(e.clientX + 2, e.clientY + 2);
+      });
+
+      let touchTimer = null;
+      node.addEventListener('touchstart', e =>{
+        if(touchTimer) clearTimeout(touchTimer);
+        touchTimer = setTimeout(()=>{
+          const nivelName = node.dataset.nivel;
+          buildMenuFor(nivelName);
+          const touch = e.touches[0];
+          showMenu(touch.clientX, touch.clientY);
+        }, 500);
+      });
+      node.addEventListener('touchend', ()=>{
+        if(touchTimer) { clearTimeout(touchTimer); touchTimer = null; }
+      });
+    });
+
+    document.addEventListener('click', (e)=>{
+      if(menu.style.display === 'block' && !menu.contains(e.target)) hideMenu();
+    });
+    document.addEventListener('keydown', e =>{
+      if(e.key === 'Escape') hideMenu();
+    });
+
+    document.addEventListener('contextmenu', e =>{
+      if(!e.target.closest('.nivel-item')){
+        // e.preventDefault(); // si quieres bloquear menú contextual general, descomenta esta línea
+      }
+    });
+  </script>
+</body>
+</html>
